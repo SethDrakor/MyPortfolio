@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { projects } from "../data/portfolio";
 
 const filters = ["Tous", "UE5", "Unity", "Simulation"];
@@ -201,12 +202,23 @@ export default function Projects() {
                 <div className="project-subtitle">{p.subtitle}</div>
                 <div className="project-desc">{p.description}</div>
 
-                <button
-                  className="project-expand-btn"
-                  onClick={() => setExpanded(expanded === p.id ? null : p.id)}
-                >
-                  {expanded === p.id ? "▲ Réduire" : "▼ Détails techniques"}
-                </button>
+                <div style={{ display:"flex", gap:".6rem", flexWrap:"wrap", marginBottom:"1rem" }}>
+                  <button
+                    className="project-expand-btn"
+                    onClick={() => setExpanded(expanded === p.id ? null : p.id)}
+                  >
+                    {expanded === p.id ? "▲ Réduire" : "▼ Détails techniques"}
+                  </button>
+                  {p.gallery && p.gallery.length > 0 && (
+                    <Link
+                      to={`/project/${p.id}`}
+                      className="project-expand-btn"
+                      style={{ borderColor: "var(--card-color)", color: "var(--card-color)" }}
+                    >
+                      ↗ Voir le projet
+                    </Link>
+                  )}
+                </div>
 
                 {expanded === p.id && (
                   <div className="project-details">

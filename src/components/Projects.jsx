@@ -5,7 +5,7 @@ const filters = ["Tous", "UE5", "Unity", "Simulation"];
 
 export default function Projects() {
   const [active, setActive] = useState("Tous");
-  const [hovered, setHovered] = useState(null);
+  const [expanded, setExpanded] = useState(null);
 
   const filtered = active === "Tous"
     ? projects
@@ -14,19 +14,13 @@ export default function Projects() {
   return (
     <>
       <style>{`
-        .projects { padding: 7rem 2rem; max-width: 1100px; margin: 0 auto; }
-        .filter-bar {
-          display: flex; gap: .6rem; flex-wrap: wrap;
-          margin-bottom: 3rem;
-        }
+        .projects { padding: 7rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .filter-bar { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 3rem; }
         .filter-btn {
-          background: transparent;
-          border: 1px solid var(--border);
-          color: var(--text3);
-          padding: .45rem 1.1rem;
+          background: transparent; border: 1px solid var(--border);
+          color: var(--text3); padding: .45rem 1.1rem;
           font-family: var(--font-mono); font-size: .72rem;
-          letter-spacing: .1em; text-transform: uppercase;
-          transition: all .2s;
+          letter-spacing: .1em; text-transform: uppercase; transition: all .2s;
         }
         .filter-btn.active, .filter-btn:hover {
           border-color: var(--accent); color: var(--accent);
@@ -34,62 +28,105 @@ export default function Projects() {
         }
         .projects-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
           gap: 1.5rem;
         }
         .project-card {
-          border: 1px solid var(--border);
-          background: var(--surface);
-          padding: 2rem;
+          border: 1px solid var(--border); background: var(--surface);
           position: relative; overflow: hidden;
           transition: border-color .25s, transform .2s;
-          cursor: none;
+          cursor: pointer;
         }
         .project-card::before {
-          content: '';
-          position: absolute; top: 0; left: 0; right: 0;
-          height: 2px;
-          background: var(--card-color, var(--accent));
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: transform .3s;
+          content: ''; position: absolute; top: 0; left: 0; right: 0;
+          height: 2px; background: var(--card-color, var(--accent));
+          transform: scaleX(0); transform-origin: left; transition: transform .3s;
         }
-        .project-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+        .project-card:hover { border-color: var(--border2); transform: translateY(-2px); }
         .project-card:hover::before { transform: scaleX(1); }
-        .project-card-top {
-          display: flex; justify-content: space-between;
-          align-items: flex-start; margin-bottom: 1.2rem;
+
+        /* Image area */
+        .project-img {
+          width: 100%; height: 220px; overflow: hidden;
+          background: var(--bg3); position: relative;
         }
-        .project-engine {
-          font-family: var(--font-mono); font-size: .65rem;
-          letter-spacing: .12em; text-transform: uppercase;
-          color: var(--card-color, var(--accent));
-          border: 1px solid var(--card-color, var(--accent));
-          padding: .2rem .6rem;
+        .project-img img {
+          width: 100%; height: 100%; object-fit: cover;
+          transition: transform .4s; display: block;
         }
-        .project-year {
-          font-family: var(--font-mono); font-size: .68rem;
-          color: var(--text3);
+        .project-card:hover .project-img img { transform: scale(1.04); }
+        .project-img-placeholder {
+          width: 100%; height: 100%;
+          display: flex; align-items: center; justify-content: center;
+          font-family: var(--font-mono); font-size: .75rem;
+          color: var(--text3); letter-spacing: .1em;
+          border-bottom: 1px solid var(--border);
+        }
+        .project-img-placeholder span {
+          border: 1px dashed var(--border2);
+          padding: .5rem 1rem;
+        }
+
+        /* Badge overlay on image */
+        .project-img-badges {
+          position: absolute; top: .75rem; left: .75rem;
+          display: flex; gap: .4rem;
+        }
+        .project-engine-badge {
+          font-family: var(--font-mono); font-size: .6rem;
+          letter-spacing: .1em; text-transform: uppercase;
+          color: var(--bg); background: var(--card-color, var(--accent));
+          padding: .2rem .55rem; font-weight: 700;
+        }
+        .project-year-badge {
+          font-family: var(--font-mono); font-size: .6rem;
+          letter-spacing: .08em; color: var(--text);
+          background: rgba(0,0,0,0.7); padding: .2rem .55rem;
+          backdrop-filter: blur(4px);
+        }
+
+        /* Card body */
+        .project-body { padding: 1.5rem; }
+        .project-meta {
+          display: flex; gap: .6rem; align-items: center;
+          margin-bottom: .5rem; flex-wrap: wrap;
+        }
+        .project-role-tag {
+          font-family: var(--font-mono); font-size: .62rem;
+          color: var(--text3); letter-spacing: .08em;
+          background: var(--bg3); border: 1px solid var(--border);
+          padding: .15rem .5rem;
+        }
+        .project-type-tag {
+          font-family: var(--font-mono); font-size: .62rem;
+          color: var(--card-color, var(--accent)); letter-spacing: .08em;
         }
         .project-title {
-          font-size: 1.4rem; font-weight: 800;
-          margin-bottom: .2rem; letter-spacing: -.01em;
+          font-size: 1.3rem; font-weight: 800; margin-bottom: .2rem;
+          letter-spacing: -.01em;
         }
         .project-subtitle {
-          font-family: var(--font-mono); font-size: .75rem;
-          color: var(--text3); margin-bottom: 1rem;
+          font-family: var(--font-mono); font-size: .72rem;
+          color: var(--text3); margin-bottom: .85rem;
         }
         .project-desc {
-          font-family: var(--font-mono); font-size: .8rem;
-          color: var(--text2); line-height: 1.75;
-          font-weight: 300; margin-bottom: 1.5rem;
+          font-family: var(--font-mono); font-size: .78rem;
+          color: var(--text2); line-height: 1.75; font-weight: 300;
+          margin-bottom: 1.2rem;
         }
-        .project-highlights {
-          border-top: 1px solid var(--border);
-          padding-top: 1.2rem; margin-bottom: 1.5rem;
-          display: none;
+
+        /* Expand toggle */
+        .project-expand-btn {
+          background: none; border: 1px solid var(--border);
+          color: var(--text3); font-family: var(--font-mono);
+          font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+          padding: .35rem .8rem; transition: all .2s; margin-bottom: 1rem;
         }
-        .project-card:hover .project-highlights { display: block; }
+        .project-expand-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* Expanded details */
+        .project-details { border-top: 1px solid var(--border); padding-top: 1rem; }
+        .project-highlights { margin-bottom: 1rem; }
         .project-highlights li {
           font-family: var(--font-mono); font-size: .72rem;
           color: var(--text2); line-height: 1.7;
@@ -98,36 +135,41 @@ export default function Projects() {
         }
         .project-highlights li::before {
           content: '▸'; position: absolute; left: 0;
-          color: var(--card-color, var(--accent)); font-size: .6rem;
+          color: var(--card-color, var(--accent)); font-size: .6rem; top: .15rem;
         }
-        .project-tags {
-          display: flex; flex-wrap: wrap; gap: .5rem;
-        }
+
+        .project-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
         .project-tag {
-          font-family: var(--font-mono); font-size: .65rem;
-          letter-spacing: .08em;
-          background: var(--bg3); color: var(--text3);
-          padding: .25rem .65rem;
-          border: 1px solid var(--border);
+          font-family: var(--font-mono); font-size: .63rem;
+          letter-spacing: .06em; background: var(--bg3); color: var(--text3);
+          padding: .22rem .6rem; border: 1px solid var(--border);
         }
+        .project-itch {
+          display: inline-flex; align-items: center; gap: .4rem;
+          font-family: var(--font-mono); font-size: .68rem;
+          color: var(--card-color, var(--accent)); letter-spacing: .06em;
+          border: 1px solid var(--card-color, var(--accent));
+          padding: .3rem .8rem; transition: background .2s, color .2s;
+        }
+        .project-itch:hover {
+          background: var(--card-color, var(--accent)); color: var(--bg);
+        }
+
         @media (max-width: 768px) {
           .projects-grid { grid-template-columns: 1fr; }
+          .project-img { height: 180px; }
         }
       `}</style>
       <section className="projects" id="projects">
-        <div className="section-label" style={{ fontFamily: "var(--font-mono)", fontSize: ".7rem", color: "var(--accent)", letterSpacing: ".2em", textTransform: "uppercase", marginBottom: "1rem", display: "flex", alignItems: "center", gap: ".8rem" }}>
-          <span style={{ color: "var(--text3)" }}>//</span> Projets
+        <div className="section-label" style={{ fontFamily:"var(--font-mono)",fontSize:".7rem",color:"var(--accent)",letterSpacing:".2em",textTransform:"uppercase",marginBottom:"1rem",display:"flex",alignItems:"center",gap:".8rem" }}>
+          <span style={{ color:"var(--text3)" }}>//</span> Projets
         </div>
-        <h2 style={{ fontSize: "clamp(2rem,4vw,3rem)", fontWeight: 800, letterSpacing: "-.02em", lineHeight: 1.1, marginBottom: "3rem" }}>
+        <h2 style={{ fontSize:"clamp(2rem,4vw,3rem)",fontWeight:800,letterSpacing:"-.02em",lineHeight:1.1,marginBottom:"3rem" }}>
           Ce que j'ai<br />construit
         </h2>
         <div className="filter-bar">
           {filters.map((f) => (
-            <button
-              key={f}
-              className={`filter-btn${active === f ? " active" : ""}`}
-              onClick={() => setActive(f)}
-            >{f}</button>
+            <button key={f} className={`filter-btn${active===f?" active":""}`} onClick={()=>setActive(f)}>{f}</button>
           ))}
         </div>
         <div className="projects-grid">
@@ -136,21 +178,51 @@ export default function Projects() {
               className="project-card"
               key={p.id}
               style={{ "--card-color": p.color }}
-              onMouseEnter={() => setHovered(p.id)}
-              onMouseLeave={() => setHovered(null)}
             >
-              <div className="project-card-top">
-                <span className="project-engine">{p.engine}</span>
-                <span className="project-year">{p.year}</span>
+              {/* Image */}
+              <div className="project-img">
+                {p.images && p.images.length > 0
+                  ? <img src={p.images[0]} alt={p.title} loading="lazy" />
+                  : <div className="project-img-placeholder"><span>Images à venir</span></div>
+                }
+                <div className="project-img-badges">
+                  <span className="project-engine-badge">{p.engine}</span>
+                  <span className="project-year-badge">{p.year}</span>
+                </div>
               </div>
-              <div className="project-title">{p.title}</div>
-              <div className="project-subtitle">{p.subtitle}</div>
-              <div className="project-desc">{p.description}</div>
-              <ul className="project-highlights">
-                {p.highlights.map((h, i) => <li key={i}>{h}</li>)}
-              </ul>
-              <div className="project-tags">
-                {p.tech.map((t) => <span className="project-tag" key={t}>{t}</span>)}
+
+              {/* Body */}
+              <div className="project-body">
+                <div className="project-meta">
+                  {p.role && <span className="project-role-tag">{p.role}</span>}
+                  {p.type && <span className="project-type-tag">/ {p.type}</span>}
+                </div>
+                <div className="project-title">{p.title}</div>
+                <div className="project-subtitle">{p.subtitle}</div>
+                <div className="project-desc">{p.description}</div>
+
+                <button
+                  className="project-expand-btn"
+                  onClick={() => setExpanded(expanded === p.id ? null : p.id)}
+                >
+                  {expanded === p.id ? "▲ Réduire" : "▼ Détails techniques"}
+                </button>
+
+                {expanded === p.id && (
+                  <div className="project-details">
+                    <ul className="project-highlights">
+                      {p.highlights.map((h, i) => <li key={i}>{h}</li>)}
+                    </ul>
+                    <div className="project-tags">
+                      {p.tech.map((t) => <span className="project-tag" key={t}>{t}</span>)}
+                    </div>
+                    {p.itchUrl && (
+                      <a className="project-itch" href={p.itchUrl} target="_blank" rel="noreferrer">
+                        ↗ Télécharger sur itch.io
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}

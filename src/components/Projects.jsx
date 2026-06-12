@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { projects } from "../data/portfolio";
+import { useLang } from "../context/LangContext";
 
-const filters = ["Tous", "UE5", "Unity", "Simulation"];
+const FILTER_KEYS = ["Tous", "UE5", "Unity", "Simulation"];
 
 export default function Projects() {
   const [active, setActive] = useState("Tous");
   const [expanded, setExpanded] = useState(null);
+  const { t } = useLang();
+
+  const filters = FILTER_KEYS.map(k => k === "Tous" ? { key: k, label: t("proj_filter_all") } : { key: k, label: k });
 
   const filtered = active === "Tous"
     ? projects
@@ -178,14 +182,14 @@ export default function Projects() {
       `}</style>
       <section className="projects" id="projects">
         <div className="section-label" style={{ fontFamily:"var(--font-mono)",fontSize:".7rem",color:"var(--accent)",letterSpacing:".2em",textTransform:"uppercase",marginBottom:"1rem",display:"flex",alignItems:"center",gap:".8rem" }}>
-          <span style={{ color:"var(--text3)" }}>//</span> Projets
+          <span style={{ color:"var(--text3)" }}>//</span> {t("proj_label")}
         </div>
         <h2 style={{ fontSize:"clamp(2rem,4vw,3rem)",fontWeight:800,letterSpacing:"-.02em",lineHeight:1.1,marginBottom:"3rem" }}>
-          Ce que j'ai<br />construit
+          {t("proj_title").split("\n").map((l,i)=><span key={i}>{l}{i===0&&<br/>}</span>)}
         </h2>
         <div className="filter-bar">
           {filters.map((f) => (
-            <button key={f} className={`filter-btn${active===f?" active":""}`} onClick={()=>setActive(f)}>{f}</button>
+            <button key={f.key} className={`filter-btn${active===f.key?" active":""}`} onClick={()=>setActive(f.key)}>{f.label}</button>
           ))}
         </div>
         <div className="projects-grid">
@@ -208,10 +212,10 @@ export default function Projects() {
                         </div>
                       </div>
                     )
-                  : <div className="project-img-placeholder"><span>Images à venir</span></div>
+                  : <div className="project-img-placeholder"><span>{t("proj_placeholder")}</span></div>
                 }
                 {p.id === "claude-ue5" && (
-                  <div className="project-featured-label">⚡ Projet phare 2026</div>
+                  <div className="project-featured-label">{t("proj_featured")}</div>
                 )}
                 <div className="project-img-badges">
                   <span className="project-engine-badge">{p.engine}</span>
@@ -237,7 +241,7 @@ export default function Projects() {
                     className="project-expand-btn"
                     onClick={() => setExpanded(expanded === p.id ? null : p.id)}
                   >
-                    {expanded === p.id ? "▲ Réduire" : "▼ Détails techniques"}
+                    {expanded === p.id ? t("proj_details_close") : t("proj_details")}
                   </button>
                   {(p.gallery?.length > 0 || p.sections?.length > 0) && (
                     <Link
@@ -245,7 +249,7 @@ export default function Projects() {
                       className="project-expand-btn"
                       style={{ borderColor: "var(--card-color)", color: "var(--card-color)" }}
                     >
-                      ↗ Voir le projet
+                      {t("proj_see")}
                     </Link>
                   )}
                 </div>
@@ -256,11 +260,11 @@ export default function Projects() {
                       {p.highlights.map((h, i) => <li key={i}>{h}</li>)}
                     </ul>
                     <div className="project-tags">
-                      {p.tech.map((t) => <span className="project-tag" key={t}>{t}</span>)}
+                      {p.tech.map((tech) => <span className="project-tag" key={tech}>{tech}</span>)}
                     </div>
                     {p.itchUrl && (
                       <a className="project-itch" href={p.itchUrl} target="_blank" rel="noreferrer">
-                        ↗ Télécharger sur itch.io
+                        {t("detail_itch")}
                       </a>
                     )}
                   </div>

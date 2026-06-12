@@ -1,12 +1,14 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { projects } from "../data/portfolio";
+import { useLang } from "../context/LangContext";
 
 export default function ProjectDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const project = projects.find((p) => p.id === id);
   const [lightbox, setLightbox] = useState(null);
+  const { t } = useLang();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -255,7 +257,7 @@ export default function ProjectDetail() {
       <div className="detail-page" style={{ "--project-color": project.color }}>
         {/* Hero */}
         <div className="detail-hero">
-          <Link to="/#projects" className="detail-back">← Retour aux projets</Link>
+          <Link to="/#projects" className="detail-back">{t("detail_back")}</Link>
           <div className="detail-badges">
             <span className="detail-badge detail-badge-engine">{project.engine}</span>
             {project.type && <span className="detail-badge detail-badge-type">{project.type}</span>}
@@ -267,16 +269,16 @@ export default function ProjectDetail() {
           <div className="detail-meta-row">
             {project.role && (
               <div className="detail-meta-item">
-                <div className="meta-label">Rôle</div>
+                <div className="meta-label">{t("detail_role")}</div>
                 <div className="meta-val">{project.role}</div>
               </div>
             )}
             <div className="detail-meta-item">
-              <div className="meta-label">Moteur</div>
+              <div className="meta-label">{t("detail_engine")}</div>
               <div className="meta-val">{project.engine}</div>
             </div>
             <div className="detail-meta-item">
-              <div className="meta-label">Année</div>
+              <div className="meta-label">{t("detail_year")}</div>
               <div className="meta-val">{project.year}</div>
             </div>
           </div>
@@ -314,7 +316,7 @@ export default function ProjectDetail() {
 
           {/* Highlights */}
           <div className="detail-highlights">
-            <h3>// Ce que j'ai développé</h3>
+            <h3>{t("detail_highlights")}</h3>
             <ul>
               {project.highlights.map((h, i) => <li key={i}>{h}</li>)}
             </ul>
@@ -322,7 +324,7 @@ export default function ProjectDetail() {
 
           {/* Tech */}
           <div className="detail-tech">
-            <h3>Technologies</h3>
+            <h3>{t("detail_tech")}</h3>
             <div className="detail-tech-tags">
               {project.tech.map((t) => <span className="detail-tech-tag" key={t}>{t}</span>)}
             </div>
@@ -332,10 +334,10 @@ export default function ProjectDetail() {
           <div className="detail-cta">
             {project.itchUrl && (
               <a className="btn-primary" href={project.itchUrl} target="_blank" rel="noreferrer">
-                ↗ Télécharger sur itch.io
+                {t("detail_itch")}
               </a>
             )}
-            <Link to="/#projects" className="btn-outline">← Tous les projets</Link>
+            <Link to="/#projects" className="btn-outline">{t("detail_all")}</Link>
           </div>
         </div>
 
@@ -343,13 +345,13 @@ export default function ProjectDetail() {
         <div className="detail-nav">
           {prev ? (
             <Link to={`/project/${prev.id}`} className="detail-nav-item">
-              <div className="detail-nav-label">← Projet précédent</div>
+              <div className="detail-nav-label">{t("detail_prev")}</div>
               <div className="detail-nav-title">{prev.title}</div>
             </Link>
           ) : <div className="detail-nav-item" />}
           {next ? (
             <Link to={`/project/${next.id}`} className="detail-nav-item next">
-              <div className="detail-nav-label">Projet suivant →</div>
+              <div className="detail-nav-label">{t("detail_next")}</div>
               <div className="detail-nav-title">{next.title}</div>
             </Link>
           ) : <div className="detail-nav-item" />}

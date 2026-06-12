@@ -184,10 +184,22 @@ export default function Projects() {
               <div className="project-img">
                 {p.images && p.images.length > 0
                   ? <img src={p.images[0]} alt={p.title} loading="lazy" />
+                  : p.id === "claude-ue5"
+                    ? (
+                      <div className="project-img-placeholder" style={{ background: "var(--bg3)", flexDirection:"column", gap:"1rem" }}>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"1.1rem", color:"var(--accent)", letterSpacing:".05em" }}>MCP · C++ · Python</div>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:".65rem", color:"var(--text3)", letterSpacing:".15em", textAlign:"center", lineHeight:1.8 }}>
+                          Claude AI ←→ UE5<br/>Remote Execution API<br/>Behavior Trees · AI Perception
+                        </div>
+                      </div>
+                    )
                   : <div className="project-img-placeholder"><span>Images à venir</span></div>
                 }
                 <div className="project-img-badges">
                   <span className="project-engine-badge">{p.engine}</span>
+                  {p.id === "claude-ue5" && (
+                    <span className="project-engine-badge" style={{ background: "#7b61ff" }}>Claude AI</span>
+                  )}
                   <span className="project-year-badge">{p.year}</span>
                 </div>
               </div>
@@ -209,7 +221,7 @@ export default function Projects() {
                   >
                     {expanded === p.id ? "▲ Réduire" : "▼ Détails techniques"}
                   </button>
-                  {p.gallery && p.gallery.length > 0 && (
+                  {(p.gallery?.length > 0 || p.sections?.length > 0) && (
                     <Link
                       to={`/project/${p.id}`}
                       className="project-expand-btn"

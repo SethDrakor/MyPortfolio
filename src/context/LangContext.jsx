@@ -216,6 +216,35 @@ const translations = {
 
     exp_label: "Expérience",
     exp_title: "Parcours\nprofessionnel",
+    experience: [
+      {
+        role: "Technicien Systèmes Embarqués",
+        company: "CS Group",
+        type: "CDI",
+        period: "Sept. 2024 — Nov. 2025",
+        domain: "Simulation / Défense",
+        color: "#7b61ff",
+        desc: "Développement sur simulateur aéronautique (Inscape VTS) pour la défense nationale. Environnement sécurisé, documentation classifiée, architecture modulaire.",
+      },
+      {
+        role: "Gameplay Programmer",
+        company: "Rainbow Ant Studio",
+        type: "Freelance",
+        period: "Déc. 2023 — Sept. 2024",
+        domain: "Jeu Vidéo / UE5",
+        color: "#00d4ff",
+        desc: "Mission freelance sur un jeu d'action-aventure UE5. Systèmes gameplay complets : personnage, natation, météo, map interactive.",
+      },
+      {
+        role: "Bachelor Développement de Jeux Vidéo",
+        company: "E-Artsup",
+        type: "Formation",
+        period: "2020 — 2023",
+        domain: "RNCP Niveau 6",
+        color: "#ff4d00",
+        desc: "Spécialisation C# / Unity / Game & Level Design. Certification RNCP Niveau 6.",
+      },
+    ],
 
     proj_label: "Projets",
     proj_title: "Ce que j'ai\nconstruit",
@@ -297,6 +326,35 @@ const translations = {
 
     exp_label: "Experience",
     exp_title: "Career\npath",
+    experience: [
+      {
+        role: "Embedded Systems Technician",
+        company: "CS Group",
+        type: "Permanent",
+        period: "Sep. 2024 — Nov. 2025",
+        domain: "Simulation / Defence",
+        color: "#7b61ff",
+        desc: "Development on an aeronautical simulator (Inscape VTS) for national defence. Secure environment, classified documentation, modular architecture.",
+      },
+      {
+        role: "Gameplay Programmer",
+        company: "Rainbow Ant Studio",
+        type: "Freelance",
+        period: "Dec. 2023 — Sep. 2024",
+        domain: "Game Dev / UE5",
+        color: "#00d4ff",
+        desc: "Freelance mission on a UE5 action-adventure game. Full gameplay systems: character, swimming, weather, interactive map.",
+      },
+      {
+        role: "Bachelor in Video Game Development",
+        company: "E-Artsup",
+        type: "Education",
+        period: "2020 — 2023",
+        domain: "RNCP Level 6",
+        color: "#ff4d00",
+        desc: "Specialisation in C# / Unity / Game & Level Design. RNCP Level 6 certification.",
+      },
+    ],
 
     proj_label: "Projects",
     proj_title: "What I've\nbuilt",
@@ -349,8 +407,9 @@ export function LangProvider({ children }) {
   const t = (key) => translations[lang][key] ?? key;
   const tSkills = () => translations[lang].skills;
   const tProject = (id) => projectsData[lang][id] ?? projectsData.fr[id];
+  const tExperience = () => translations[lang].experience;
   return (
-    <LangContext.Provider value={{ lang, setLang, t, tSkills, tProject }}>
+    <LangContext.Provider value={{ lang, setLang, t, tSkills, tProject, tExperience }}>
       {children}
     </LangContext.Provider>
   );

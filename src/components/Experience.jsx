@@ -1,8 +1,8 @@
-import { experience } from "../data/portfolio";
 import { useLang } from "../context/LangContext";
 
 export default function Experience() {
-  const { t } = useLang();
+  const { t, tExperience } = useLang();
+  const experience = tExperience();
   return (
     <>
       <style>{`

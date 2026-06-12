@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { projects } from "../data/portfolio";
 
 export default function ProjectDetail() {
@@ -7,6 +7,10 @@ export default function ProjectDetail() {
   const navigate = useNavigate();
   const project = projects.find((p) => p.id === id);
   const [lightbox, setLightbox] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [id]);
 
   if (!project) {
     return (

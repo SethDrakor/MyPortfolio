@@ -267,8 +267,9 @@ export const projects = [
 
 export const skills = [
   { category: "Moteurs", items: ["Unreal Engine 5", "Unity"] },
-  { category: "Langages", items: ["C++", "C#", "Blueprint (UE5)"] },
+  { category: "Langages", items: ["C++", "C#", "Python", "Blueprint (UE5)"] },
   { category: "Gameplay", items: ["Character Movement", "AI / Behavior Trees", "Animation Blueprints", "Physics"] },
+  { category: "IA & Outils", items: ["Claude AI", "MCP (Model Context Protocol)", "Remote Execution API", "Pipeline IA → UE5", "BlueprintAutomation"] },
   { category: "Simulation", items: ["Temps réel", "Architecture modulaire", "Scénarios interactifs"] },
   { category: "Versioning", items: ["Git / GitHub", "Plastic SCM", "Perforce"] },
   { category: "Soft Skills", items: ["Autonomie remote", "Travail sous pression", "Anglais technique"] },

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const links = [
   { href: "#about", label: "À propos" },
@@ -11,12 +12,33 @@ const links = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
+
+  const handleNav = (e, href) => {
+    e.preventDefault();
+    setOpen(false);
+    const hash = href; // e.g. "#about"
+    if (isHome) {
+      const el = document.querySelector(hash);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // Navigate home then scroll
+      navigate("/");
+      // Wait for home to mount then scroll
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 120);
+    }
+  };
 
   return (
     <>
@@ -39,13 +61,14 @@ export default function Navbar() {
           font-size: .85rem;
           color: var(--accent);
           letter-spacing: .08em;
+          cursor: pointer;
         }
         .nav-logo span { color: var(--text2); }
         .nav-links { display: flex; gap: 2.2rem; list-style: none; }
         .nav-links a {
           font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
           color: var(--text2); transition: color .2s;
-          position: relative;
+          position: relative; cursor: pointer;
         }
         .nav-links a::after {
           content: ''; position: absolute; bottom: -4px; left: 0;
@@ -58,10 +81,10 @@ export default function Navbar() {
           background: transparent; border: 1px solid var(--accent);
           color: var(--accent); padding: .45rem 1.2rem;
           font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
-          transition: background .2s, color .2s;
+          transition: background .2s, color .2s; cursor: pointer;
         }
         .nav-cta:hover { background: var(--accent); color: var(--bg); }
-        .nav-burger { display: none; background: none; border: none; color: var(--text); }
+        .nav-burger { display: none; background: none; border: none; color: var(--text); font-size: 1.2rem; }
         @media (max-width: 768px) {
           .nav-links, .nav-cta { display: none; }
           .nav-burger { display: block; }
@@ -73,18 +96,20 @@ export default function Navbar() {
           }
           .nav-mobile a {
             font-size: 1.5rem; letter-spacing: .08em; text-transform: uppercase;
-            color: var(--text2);
+            color: var(--text2); cursor: pointer;
           }
         }
       `}</style>
       <nav className={`nav${scrolled ? " scrolled" : ""}`}>
-        <div className="nav-logo">TL<span> /</span></div>
+        <div className="nav-logo" onClick={() => navigate("/")}>TL<span> /</span></div>
         <ul className="nav-links">
           {links.map((l) => (
-            <li key={l.href}><a href={l.href}>{l.label}</a></li>
+            <li key={l.href}>
+              <a href={l.href} onClick={(e) => handleNav(e, l.href)}>{l.label}</a>
+            </li>
           ))}
         </ul>
-        <a href="#contact" className="nav-cta">Me contacter</a>
+        <button className="nav-cta" onClick={(e) => handleNav(e, "#contact")}>Me contacter</button>
         <button className="nav-burger" onClick={() => setOpen(!open)} aria-label="menu">
           {open ? "✕" : "☰"}
         </button>
@@ -92,7 +117,7 @@ export default function Navbar() {
       {open && (
         <div className="nav-mobile">
           {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
+            <a key={l.href} href={l.href} onClick={(e) => handleNav(e, l.href)}>{l.label}</a>
           ))}
         </div>
       )}

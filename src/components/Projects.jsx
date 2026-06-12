@@ -68,6 +68,21 @@ export default function Projects() {
           padding: .5rem 1rem;
         }
 
+        /* Featured card */
+        .project-card.featured {
+          grid-column: 1 / -1;
+          border-color: rgba(0,212,255,0.3);
+          background: linear-gradient(135deg, var(--surface) 0%, rgba(0,212,255,0.04) 100%);
+        }
+        .project-card.featured .project-img { height: 280px; }
+        .project-featured-label {
+          position: absolute; top: .75rem; right: .75rem;
+          font-family: var(--font-mono); font-size: .6rem;
+          letter-spacing: .12em; text-transform: uppercase;
+          background: rgba(123,97,255,0.9); color: #fff;
+          padding: .25rem .7rem; backdrop-filter: blur(4px);
+        }
+
         /* Badge overlay on image */
         .project-img-badges {
           position: absolute; top: .75rem; left: .75rem;
@@ -176,7 +191,7 @@ export default function Projects() {
         <div className="projects-grid">
           {filtered.map((p) => (
             <div
-              className="project-card"
+              className={`project-card${p.id === "claude-ue5" ? " featured" : ""}`}
               key={p.id}
               style={{ "--card-color": p.color }}
             >
@@ -195,6 +210,9 @@ export default function Projects() {
                     )
                   : <div className="project-img-placeholder"><span>Images à venir</span></div>
                 }
+                {p.id === "claude-ue5" && (
+                  <div className="project-featured-label">⚡ Projet phare 2026</div>
+                )}
                 <div className="project-img-badges">
                   <span className="project-engine-badge">{p.engine}</span>
                   {p.id === "claude-ue5" && (

@@ -15,10 +15,10 @@ export default function Contact() {
       color: "#7b61ff",
     },
     {
-      label: "Portfolio actuel",
-      value: "sethdrakor.wixsite.com/my-cv",
-      href: "https://sethdrakor.wixsite.com/my-cv",
-      icon: "↗",
+      label: "CV",
+      value: "Télécharger mon CV",
+      href: "/CV_Thomas_Labetouille.pdf", download: true,
+      icon: "↓",
       color: "#ff4d00",
     },
   ];

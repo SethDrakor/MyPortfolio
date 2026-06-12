@@ -191,7 +191,7 @@ export default function Projects() {
         <div className="projects-grid">
           {filtered.map((p) => (
             <div
-              className={`project-card${p.id === "claude-ue5" ? " featured" : ""}`}
+              className={`project-card`}
               key={p.id}
               style={{ "--card-color": p.color }}
             >

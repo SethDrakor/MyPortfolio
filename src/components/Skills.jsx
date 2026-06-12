@@ -1,8 +1,8 @@
-import { skills } from "../data/portfolio";
 import { useLang } from "../context/LangContext";
 
 export default function Skills() {
-  const { t } = useLang();
+  const { t, tSkills } = useLang();
+  const skills = tSkills();
   return (
     <>
       <style>{`

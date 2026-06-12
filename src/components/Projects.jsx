@@ -8,7 +8,7 @@ const FILTER_KEYS = ["Tous", "UE5", "Unity", "Simulation"];
 export default function Projects() {
   const [active, setActive] = useState("Tous");
   const [expanded, setExpanded] = useState(null);
-  const { t } = useLang();
+  const { t, tProject } = useLang();
 
   const filters = FILTER_KEYS.map(k => k === "Tous" ? { key: k, label: t("proj_filter_all") } : { key: k, label: k });
 
@@ -228,13 +228,14 @@ export default function Projects() {
 
               {/* Body */}
               <div className="project-body">
+                {(() => { const pTr = tProject(p.id); return (<>
                 <div className="project-meta">
-                  {p.role && <span className="project-role-tag">{p.role}</span>}
-                  {p.type && <span className="project-type-tag">/ {p.type}</span>}
+                  {pTr.role && <span className="project-role-tag">{pTr.role}</span>}
+                  {pTr.type && <span className="project-type-tag">/ {pTr.type}</span>}
                 </div>
-                <div className="project-title">{p.title}</div>
-                <div className="project-subtitle">{p.subtitle}</div>
-                <div className="project-desc">{p.description}</div>
+                <div className="project-title">{pTr.title}</div>
+                <div className="project-subtitle">{pTr.subtitle}</div>
+                <div className="project-desc">{pTr.description}</div>
 
                 <div style={{ display:"flex", gap:".6rem", flexWrap:"wrap", marginBottom:"1rem" }}>
                   <button
@@ -257,7 +258,7 @@ export default function Projects() {
                 {expanded === p.id && (
                   <div className="project-details">
                     <ul className="project-highlights">
-                      {p.highlights.map((h, i) => <li key={i}>{h}</li>)}
+                      {pTr.highlights.map((h, i) => <li key={i}>{h}</li>)}
                     </ul>
                     <div className="project-tags">
                       {p.tech.map((tech) => <span className="project-tag" key={tech}>{tech}</span>)}
@@ -269,6 +270,7 @@ export default function Projects() {
                     )}
                   </div>
                 )}
+                </>); })()}
               </div>
             </div>
           ))}

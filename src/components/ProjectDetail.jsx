@@ -8,7 +8,8 @@ export default function ProjectDetail() {
   const navigate = useNavigate();
   const project = projects.find((p) => p.id === id);
   const [lightbox, setLightbox] = useState(null);
-  const { t } = useLang();
+  const { t, tProject } = useLang();
+  const pTr = tProject(id); // translated project data
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -260,17 +261,17 @@ export default function ProjectDetail() {
           <Link to="/#projects" className="detail-back">{t("detail_back")}</Link>
           <div className="detail-badges">
             <span className="detail-badge detail-badge-engine">{project.engine}</span>
-            {project.type && <span className="detail-badge detail-badge-type">{project.type}</span>}
+            {pTr?.type && <span className="detail-badge detail-badge-type">{pTr.type}</span>}
             <span className="detail-badge detail-badge-year">{project.year}</span>
           </div>
-          <h1 className="detail-title">{project.title}</h1>
-          <div className="detail-subtitle">{project.subtitle}</div>
-          <p className="detail-desc">{project.description}</p>
+          <h1 className="detail-title">{pTr?.title ?? project.title}</h1>
+          <div className="detail-subtitle">{pTr?.subtitle ?? project.subtitle}</div>
+          <p className="detail-desc">{pTr?.description ?? project.description}</p>
           <div className="detail-meta-row">
-            {project.role && (
+            {pTr?.role && (
               <div className="detail-meta-item">
                 <div className="meta-label">{t("detail_role")}</div>
-                <div className="meta-val">{project.role}</div>
+                <div className="meta-val">{pTr?.role}</div>
               </div>
             )}
             <div className="detail-meta-item">
@@ -300,7 +301,7 @@ export default function ProjectDetail() {
           )}
 
           {/* Sections */}
-          {project.sections && project.sections.map((sec, i) => (
+          {(pTr?.sections ?? project.sections ?? []).map((sec, i) => (
             <div className="detail-section" key={i}>
               <h2 className="detail-section-title">{sec.title}</h2>
               <p className="detail-section-text">{sec.text}</p>
@@ -318,7 +319,7 @@ export default function ProjectDetail() {
           <div className="detail-highlights">
             <h3>{t("detail_highlights")}</h3>
             <ul>
-              {project.highlights.map((h, i) => <li key={i}>{h}</li>)}
+              {(pTr?.highlights ?? project.highlights).map((h, i) => <li key={i}>{h}</li>)}
             </ul>
           </div>
 

@@ -1,32 +1,49 @@
 export const projects = [
-  {
+{
     id: "claude-ue5",
     title: "Agent IA × UE5",
-    subtitle: "Claude AI + Unreal Engine 5 — Projet personnel",
+    subtitle: "Plugin C++ embarqué dans Unreal Engine 5 — Projet personnel",
     engine: "UE5", category: "UE5",
-    tags: ["UE5", "C++", "IA", "MCP", "Claude AI"],
+    tags: ["UE5", "C++", "IA", "Groq", "Python", "Slate UI", "LLM"],
     year: "2025–2026",
     color: "#00d4ff",
     role: "Développeur solo",
     type: "Outil / IA",
-    images: [],
-    description: "Pipeline bidirectionnel entre Claude AI et Unreal Engine 5 via le Model Context Protocol (MCP). Claude pilote l'éditeur UE5 en temps réel : création de Blueprints, spawn d'actors, construction de levels et développement de systèmes C++ complexes via conversation.",
-    tech: ["Unreal Engine 5.7", "C++", "Python", "Blueprint", "MCP", "Claude AI", "Remote Execution API", "Behavior Trees", "AIPerception", "Blackboard"],
+    images: ["/images/claude-ue5/panel_overview.png"],
+    description: "Agent IA intégré nativement dans l'éditeur Unreal Engine 5 sous forme de panneau dockable custom. L'agent pilote l'éditeur en langage naturel : level design procédural, création de Blueprints, spawn d'actors, atmosphères — le tout exécuté en Python sans quitter UE5.",
+    tech: ["Unreal Engine 5.7", "C++", "Slate UI", "Python", "Groq API", "Llama 3.3 70B", "Blueprint", "MCP", "Claude AI"],
     highlights: [
-      "Bridge MCP bidirectionnel entre Claude Desktop et UE5 via Remote Execution API",
-      "Plugin C++ BlueprintAutomation : création de variables, dispatchers, compilation de Blueprints depuis l'extérieur de l'éditeur",
-      "LampDetectionComponent C++ natif : détection temps réel d'un ennemi dans le cône lumineux d'une SpotLight (dot product, line trace, sync OuterConeAngle)",
-      "Écriture directe dans le Blackboard de l'IA via AAIController depuis le composant C++",
-      "Behavior Tree 4 états : Illuminated · Stunned · Chase · Patrol — AISense_Sight",
-      "Level design procédural en 3 actes via scripts Python UE5 (géométrie, éclairages, PostProcess, NavMesh, spawn)",
-      "100% du code C++, architecture MCP et level design co-développé avec Claude AI",
+      "Plugin C++ RoomGenerator avec panneau Slate dockable (Tools → Claude AI) intégré dans l'éditeur UE5",
+      "ClaudeEditorSubsystem : gestion de l'historique de conversation, appels HTTP async vers Groq (Llama 3.3 70B), tool_use OpenAI format",
+      "Exécution Python temps réel dans UE5 via commande console — spawn actors, lumières, Blueprints depuis le chat",
+      "Toolchain horror_presets.py : templates de salles (abandoned, office, danger, boss, corridor), atmosphères, props procéduraux",
+      "BlueprintEditingSubsystem C++ : édition de graphes Blueprint en 1 appel (BatchWireGraph DSL)",
+      "VignetteManager C++ : vignette rouge runtime synchronisée avec l'état des Blackboards IA",
+      "Clé API persistante via variable d'environnement GROQ_API_KEY — gratuit, sans abonnement",
+      "100% open-source, construit from scratch en C++ Slate sur plugin existant",
     ],
-    gallery: [],
+    gallery: [
+      { src: "/images/claude-ue5/panel_overview.png", caption: "Panneau Claude AI dans l'éditeur UE5" },
+      { src: "/images/claude-ue5/level_design_result.png", caption: "Level design procédural généré par l'agent" },
+      { src: "/images/claude-ue5/python_execution.png", caption: "Exécution Python temps réel depuis le chat" },
+      { src: "/images/claude-ue5/blueprint_editing.png", caption: "Édition de Blueprint via BatchWireGraph" },
+    ],
     sections: [
-      { title: "Infrastructure MCP × UE5", text: "Le bridge MCP (Model Context Protocol) permet à Claude Desktop de communiquer avec l'éditeur UE5 en temps réel via l'API Remote Execution. Claude peut manipuler la scène, spawner des actors, créer des Blueprints et reconstruire le NavMesh directement depuis une conversation — sans intervention manuelle dans l'éditeur.", images: [] },
-      { title: "Plugin C++ BlueprintAutomation", text: "Plugin UE5 custom développé en C++ exposant des fonctions d'automatisation Blueprint à Python. Il permet de créer des variables, des Event Dispatchers et de compiler des Blueprints entièrement depuis l'extérieur de l'éditeur — une capacité absente nativement dans UE5.", images: [] },
-      { title: "Détection lumière C++ natif", text: "Composant ActorComponent C++ qui calcule en temps réel si un ennemi IA se trouve dans le cône lumineux d'une SpotLight. Dot product + line trace pour l'occlusion, synchronisation automatique avec l'OuterConeAngle. Le composant écrit l'état directement dans le Blackboard via AAIController.", images: [] },
-      { title: "IA comportementale & Level procédural", text: "Behavior Tree 4 états (Illuminated, Stunned, Chase, Patrol) piloté par l'état lumineux. AIPerception avec AISense_Sight, BTTasks custom Blueprint. Level d'horreur construit automatiquement en 3 actes via Python UE5 : géométrie, éclairages dynamiques, PostProcess, NavMesh, spawn ennemis.", images: [] },
+      {
+        title: "Panneau Slate embarqué dans UE5",
+        text: "Un plugin C++ ajoute un panneau dockable natif dans l'éditeur UE5 (Tools → Claude AI). Interface Slate custom : zone de chat scrollable, champ de saisie, affichage du code Python généré et de ses résultats. L'agent tourne via Groq (Llama 3.3 70B, gratuit) avec persistance de la clé API et historique de conversation multi-tours.",
+        images: ["/images/claude-ue5/panel_overview.png"]
+      },
+      {
+        title: "Toolchain level design procédural",
+        text: "horror_presets.py fournit des templates de salles intelligents (abandoned, office, danger, boss, corridor) qui placent props, lumières d'ambiance et atmosphères de façon procédurale. Une commande en langage naturel comme \"habille la Zone 1 comme une salle abandonnée\" génère et exécute automatiquement le Python correspondant.",
+        images: ["/images/claude-ue5/level_design_result.png", "/images/claude-ue5/python_execution.png"]
+      },
+      {
+        title: "BlueprintEditingSubsystem & VignetteManager",
+        text: "BlueprintEditingSubsystem expose une API C++ permettant de câbler des graphes Blueprint entiers en un seul appel (BatchWireGraph DSL). VignetteManager lit les Blackboards des ennemis en temps réel et applique une vignette rouge à l'écran selon l'état de la poursuite — système runtime sans Blueprint.",
+        images: ["/images/claude-ue5/blueprint_editing.png"]
+      },
     ],
   },
   {

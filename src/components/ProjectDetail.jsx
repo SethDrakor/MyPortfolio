@@ -291,12 +291,15 @@ export default function ProjectDetail() {
           {/* Gallery */}
           {project.gallery && project.gallery.length > 0 && (
             <div className="detail-gallery">
-              {project.gallery.map((img, i) => (
-                <div className="detail-gallery-item" key={i} onClick={() => setLightbox(img.src)}>
-                  <img src={img.src} alt={img.caption} loading="lazy" />
-                  <div className="detail-gallery-caption">{img.caption}</div>
-                </div>
-              ))}
+              {project.gallery.map((img, i) => {
+                const caption = img.captionKey ? t(img.captionKey) : img.caption;
+                return (
+                  <div className="detail-gallery-item" key={i} onClick={() => setLightbox(img.src)}>
+                    <img src={img.src} alt={caption} loading="lazy" />
+                    <div className="detail-gallery-caption">{caption}</div>
+                  </div>
+                );
+              })}
             </div>
           )}
 

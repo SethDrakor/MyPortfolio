@@ -1,5 +1,5 @@
 export const projects = [
-{
+  {
     id: "claude-ue5",
     title: "Agent IA × UE5",
     subtitle: "Plugin C++ embarqué dans Unreal Engine 5 — Projet personnel",
@@ -9,7 +9,7 @@ export const projects = [
     color: "#00d4ff",
     role: "Développeur solo",
     type: "Outil / IA",
-    images: ["/images/claude-ue5/panel_overview.png"],
+    images: ["/images/claude-ue5/cover_overview.png"],
     description: "Agent IA intégré nativement dans l'éditeur Unreal Engine 5 sous forme de panneau dockable custom. L'agent pilote l'éditeur en langage naturel : level design procédural, création de Blueprints, spawn d'actors, atmosphères — le tout exécuté en Python sans quitter UE5.",
     tech: ["Unreal Engine 5.7", "C++", "Slate UI", "Python", "Groq API", "Llama 3.3 70B", "Blueprint", "MCP", "Claude AI"],
     highlights: [
@@ -23,10 +23,10 @@ export const projects = [
       "100% open-source, construit from scratch en C++ Slate sur plugin existant",
     ],
     gallery: [
-      { src: "/images/claude-ue5/panel_overview.png", caption: "Panneau Claude AI dans l'éditeur UE5" },
-      { src: "/images/claude-ue5/level_design_result.png", caption: "Level design procédural généré par l'agent" },
-      { src: "/images/claude-ue5/python_execution.png", caption: "Exécution Python temps réel depuis le chat" },
-      { src: "/images/claude-ue5/blueprint_editing.png", caption: "Édition de Blueprint via BatchWireGraph" },
+      { src: "/images/claude-ue5/panel_overview.png", captionKey: "gallery_claude_panel" },
+      { src: "/images/claude-ue5/level_design_result.png", captionKey: "gallery_claude_level" },
+      { src: "/images/claude-ue5/python_execution.png", captionKey: "gallery_claude_python" },
+      { src: "/images/claude-ue5/blueprint_editing.png", captionKey: "gallery_claude_blueprint" },
     ],
     sections: [
       {

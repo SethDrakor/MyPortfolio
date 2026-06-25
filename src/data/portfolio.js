@@ -19,6 +19,9 @@ export const projects = [
       "Toolchain horror_presets.py : templates de salles (abandoned, office, danger, boss, corridor), atmosphères, props procéduraux",
       "BlueprintEditingSubsystem C++ : édition de graphes Blueprint en 1 appel (BatchWireGraph DSL)",
       "VignetteManager C++ : vignette rouge runtime synchronisée avec l'état des Blackboards IA",
+      "verify_level.py : vérification automatique complète du level (acteurs dans les murs, NavMesh non builté, items manquants, lumières non configurées)",
+      "OccupancyGrid + safe_place : système de placement zéro-overlap — grille d'occupation + sphere_overlap_actors physique + floor snap, garantit qu'aucun ennemi n'est spawné dans la géométrie",
+      "test_suite.py : 26 tests anti-régression couvrant bpes, BatchWireGraph, BGH, ue5_utils (~5s d'exécution)",
       "Clé API persistante via variable d'environnement GROQ_API_KEY — gratuit, sans abonnement",
       "100% open-source, construit from scratch en C++ Slate sur plugin existant",
     ],
@@ -64,6 +67,44 @@ export const projects = [
       "Système de lumière dynamique Lumen — les ennemis réagissent à l'obscurité",
       "Gestion de l'état de peur : ambiance sonore procédurale, post-process",
       "Level design orienté tension et couloirs étroits",
+    ],
+  },
+  {
+    id: "hover-ue5",
+    title: "HoverCharacter UE5",
+    subtitle: "Personnage hover procédural — Projet personnel",
+    engine: "UE5", category: "UE5",
+    tags: ["UE5", "C++", "Physics", "Procedural", "Gameplay"],
+    year: "2025–2026",
+    color: "#7b61ff",
+    role: "Développeur solo",
+    type: "Gameplay / Physique",
+    images: [],
+    description: "Système de personnage C++ en Unreal Engine 5.8 combinant un mode marche standard et un mode hover avec banking, alignement de surface et accélération sur pente. Inclut un terrain désertique procédural et un calibrage physique basé sur du reverse-engineering de données réelles (Sable, Unity).",
+    tech: ["Unreal Engine 5.8", "C++", "ProceduralMeshComponent", "Enhanced Input", "Physics", "Reverse Engineering"],
+    highlights: [
+      "HoverCharacter C++ — dual mode marche/hover avec banking dynamique, alignement de surface et slope acceleration",
+      "Terrain procédural désert (ADesertTerrain) via ProceduralMeshComponent — 5 octaves de bruit, LOD dynamique",
+      "Input AZERTY via IsInputKeyDown() — contournement documenté d'un bug UE5.7/5.8 (Enhanced Input modifiers non persistants entre sessions)",
+      "Calibrage physics sur données réelles extraites de Sable (Unity AssetBundle reverse-engineering)",
+    ],
+    gallery: [],
+    sections: [
+      {
+        title: "HoverCharacter — Dual Mode C++",
+        text: "Le personnage bascule entre marche standard (capsule + CharacterMovementComponent) et mode hover (lévitation, banking latéral, alignement de surface par trace). L'accélération sur pente est calculée à partir du vecteur normal du sol — plus la pente est raide, plus le boost est fort.",
+        images: []
+      },
+      {
+        title: "Terrain procédural & calibrage réel",
+        text: "ADesertTerrain génère un terrain désertique en C++ via ProceduralMeshComponent avec 5 octaves de bruit de Perlin. La physique hover a été calibrée sur des données extraites par reverse-engineering des AssetBundles Unity du jeu Sable, pour reproduire une sensation de vol cohérente avec les attentes joueur.",
+        images: []
+      },
+      {
+        title: "Contournement bug Enhanced Input UE5.8",
+        text: "Bug documenté : les modifiers Enhanced Input (deadzone, swizzle, etc.) ne persistent pas entre sessions PIE en UE5.7/5.8. Solution implémentée : remplacement par IsInputKeyDown() sur les axes critiques, avec mapping AZERTY explicite. Solution reproductible et documentée.",
+        images: []
+      },
     ],
   },
   {
@@ -267,10 +308,10 @@ export const projects = [
 ];
 
 export const skills = [
-  { category: "Moteurs", items: ["Unreal Engine 5", "Unity"] },
+  { category: "Moteurs", items: ["Unreal Engine 5", "Unreal Engine 5.8", "Unity"] },
   { category: "Langages", items: ["C++", "C#", "Python", "Blueprint (UE5)"] },
-  { category: "Gameplay", items: ["Character Movement", "AI / Behavior Trees", "Animation Blueprints", "Physics"] },
-  { category: "IA & Outils", items: ["Claude AI", "MCP (Model Context Protocol)", "Remote Execution API", "Pipeline IA → UE5", "BlueprintAutomation"] },
+  { category: "Gameplay", items: ["Character Movement", "AI / Behavior Trees", "Animation Blueprints", "Physics", "ProceduralMeshComponent"] },
+  { category: "IA & Outils", items: ["Claude AI", "MCP (Model Context Protocol)", "Remote Execution API", "Pipeline IA → UE5", "BlueprintAutomation", "verify_level.py", "test_suite.py"] },
   { category: "Simulation", items: ["Temps réel", "Architecture modulaire", "Scénarios interactifs"] },
   { category: "Versioning", items: ["Git / GitHub", "Plastic SCM", "Perforce"] },
   { category: "Soft Skills", items: ["Autonomie remote", "Travail sous pression", "Anglais technique"] },

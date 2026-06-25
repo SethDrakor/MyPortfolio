@@ -31,6 +31,21 @@ export const projectsData = {
       highlights: ["IA ennemie basée sur Behavior Trees et AI Perception (vision/son)", "Système Lumen — les ennemis réagissent à l'obscurité", "Gestion de l'état de peur : ambiance sonore procédurale, post-process", "Level design orienté tension et couloirs étroits"],
       sections: [],
     },
+    "hover-ue5": {
+      title: "HoverCharacter UE5", subtitle: "Personnage hover procédural — Projet personnel", type: "Gameplay / Physique", role: "Développeur solo",
+      description: "Système de personnage C++ en UE5.8 combinant marche standard et mode hover avec banking, alignement de surface et accélération sur pente. Terrain désertique procédural et calibrage physique basé sur du reverse-engineering de données réelles (Sable, Unity).",
+      highlights: [
+        "HoverCharacter C++ — dual mode marche/hover avec banking dynamique, alignement de surface et slope acceleration",
+        "Terrain procédural désert (ADesertTerrain) via ProceduralMeshComponent — 5 octaves de bruit, LOD dynamique",
+        "Input AZERTY via IsInputKeyDown() — contournement documenté d'un bug UE5.7/5.8 (Enhanced Input modifiers non persistants entre sessions)",
+        "Calibrage physics sur données réelles extraites de Sable (Unity AssetBundle reverse-engineering)",
+      ],
+      sections: [
+        { title: "HoverCharacter — Dual Mode C++", text: "Le personnage bascule entre marche standard et mode hover (lévitation, banking latéral, alignement de surface par trace). L'accélération sur pente est calculée à partir du vecteur normal du sol — plus la pente est raide, plus le boost est fort." },
+        { title: "Terrain procédural & calibrage réel", text: "ADesertTerrain génère un terrain désertique en C++ via ProceduralMeshComponent avec 5 octaves de bruit de Perlin. La physique hover a été calibrée par reverse-engineering des AssetBundles Unity du jeu Sable, pour reproduire une sensation de vol cohérente." },
+        { title: "Contournement bug Enhanced Input UE5.8", text: "Bug documenté : les modifiers Enhanced Input ne persistent pas entre sessions PIE en UE5.7/5.8. Solution : remplacement par IsInputKeyDown() sur les axes critiques, avec mapping AZERTY explicite. Solution reproductible et documentée." },
+      ],
+    },
     "rainbow-ant": {
       title: "Gameplay UE5", subtitle: "Rainbow Ant Studio", type: "Action-Aventure", role: "Gameplay Programmer",
       description: "Mission freelance d'un an comme Gameplay Programmer sur un jeu d'action-aventure. Mécaniques du personnage, natation, météo dynamique, map interactive.",
@@ -117,6 +132,21 @@ export const projectsData = {
       description: "Solo horror game on UE5. The player is chased by animated mannequins that activate in the dark. Light-detection system, behavioural AI, tension management.",
       highlights: ["AI enemies driven by Behavior Trees and AI Perception (sight/sound)", "Lumen dynamic lighting — enemies react to darkness", "Fear state management: procedural sound, post-process", "Tension-oriented level design"],
       sections: [],
+    },
+    "hover-ue5": {
+      title: "HoverCharacter UE5", subtitle: "Procedural hover character — Personal project", type: "Gameplay / Physics", role: "Solo developer",
+      description: "C++ character system in UE5.8 combining standard walking and hover mode with banking, surface alignment and slope acceleration. Procedural desert terrain and physics calibration based on real-world data reverse-engineered from Sable (Unity).",
+      highlights: [
+        "C++ HoverCharacter — dual walk/hover mode with dynamic banking, surface alignment and slope acceleration",
+        "Procedural desert terrain (ADesertTerrain) via ProceduralMeshComponent — 5 noise octaves, dynamic LOD",
+        "AZERTY input via IsInputKeyDown() — documented workaround for a UE5.7/5.8 bug (Enhanced Input modifiers not persisting between PIE sessions)",
+        "Physics calibration based on real data reverse-engineered from Sable's Unity AssetBundles",
+      ],
+      sections: [
+        { title: "HoverCharacter — Dual Mode C++", text: "The character switches between standard walking (capsule + CharacterMovementComponent) and hover mode (levitation, lateral banking, surface alignment via trace). Slope acceleration is derived from the ground normal vector — the steeper the slope, the stronger the boost." },
+        { title: "Procedural Terrain & Real-World Calibration", text: "ADesertTerrain generates a desert landscape in C++ via ProceduralMeshComponent using 5 Perlin noise octaves. Hover physics were calibrated by reverse-engineering Unity AssetBundles from the game Sable, to reproduce a flight feel consistent with player expectations." },
+        { title: "Enhanced Input Bug Workaround (UE5.8)", text: "Documented bug: Enhanced Input modifiers (deadzone, swizzle, etc.) do not persist between PIE sessions in UE5.7/5.8. Solution: replaced by IsInputKeyDown() on critical axes with explicit AZERTY mapping. Reproducible and documented fix." },
+      ],
     },
     "rainbow-ant": {
       title: "UE5 Gameplay", subtitle: "Rainbow Ant Studio", type: "Action-Adventure", role: "Gameplay Programmer",
@@ -258,10 +288,10 @@ const translations = {
     skills_label: "Compétences",
     skills_title: "Stack &\nsavoir-faire",
     skills: [
-      { category: "Moteurs", items: ["Unreal Engine 5", "Unity"] },
+      { category: "Moteurs", items: ["Unreal Engine 5", "Unreal Engine 5.8", "Unity"] },
       { category: "Langages", items: ["C++", "C#", "Python", "Blueprint (UE5)"] },
-      { category: "Gameplay", items: ["Character Movement", "AI / Behavior Trees", "Animation Blueprints", "Physics"] },
-      { category: "IA & Outils", items: ["Claude AI", "MCP (Model Context Protocol)", "Remote Execution API UE5", "Pipeline IA → UE5", "BlueprintAutomation"] },
+      { category: "Gameplay", items: ["Character Movement", "AI / Behavior Trees", "Animation Blueprints", "Physics", "ProceduralMeshComponent"] },
+      { category: "IA & Outils", items: ["Claude AI", "MCP (Model Context Protocol)", "Remote Execution API UE5", "Pipeline IA → UE5", "BlueprintAutomation", "verify_level.py", "test_suite.py"] },
       { category: "Simulation", items: ["Temps réel", "Architecture modulaire", "Scénarios interactifs"] },
       { category: "Versioning", items: ["Git / GitHub", "Plastic SCM", "Perforce"] },
       { category: "Soft Skills", items: ["Autonomie remote", "Travail sous pression", "Anglais technique"] },
@@ -373,10 +403,10 @@ const translations = {
     skills_label: "Skills",
     skills_title: "Stack &\nexpertise",
     skills: [
-      { category: "Engines", items: ["Unreal Engine 5", "Unity"] },
+      { category: "Engines", items: ["Unreal Engine 5", "Unreal Engine 5.8", "Unity"] },
       { category: "Languages", items: ["C++", "C#", "Python", "Blueprint (UE5)"] },
-      { category: "Gameplay", items: ["Character Movement", "AI / Behavior Trees", "Animation Blueprints", "Physics"] },
-      { category: "AI & Tools", items: ["Claude AI", "MCP (Model Context Protocol)", "Remote Execution API UE5", "AI → UE5 Pipeline", "BlueprintAutomation"] },
+      { category: "Gameplay", items: ["Character Movement", "AI / Behavior Trees", "Animation Blueprints", "Physics", "ProceduralMeshComponent"] },
+      { category: "AI & Tools", items: ["Claude AI", "MCP (Model Context Protocol)", "Remote Execution API UE5", "AI → UE5 Pipeline", "BlueprintAutomation", "verify_level.py", "test_suite.py"] },
       { category: "Simulation", items: ["Real-time", "Modular architecture", "Interactive scenarios"] },
       { category: "Version control", items: ["Git / GitHub", "Plastic SCM", "Perforce"] },
       { category: "Soft Skills", items: ["Autonomous remote worker", "Works under pressure", "Technical English"] },
